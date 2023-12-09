@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "./Navbar";
 import Chart from "chart.js/auto";
+import { ethers } from "ethers";
 
 const Portfolio = () => {
   const [portfolioData, setPortfolioData] = useState(null);
+  const [connectedAddress, setConnectedAddress] = useState(null);
   const [totalValue, setTotalValue] = useState(0);
   const [dataForAllAssets, setDataForAllAssets] = useState([]);
   const assetArray = [
@@ -139,6 +141,80 @@ const Portfolio = () => {
     // Call the function to fetch data and create the chart
     fetchData();
   }, []); // Empty dependency array ensures useEffect runs only once
+
+  useEffect(() => {
+    const connectWallet = async () => {
+      try {
+        // Check if Web3 is injected
+        if (window.ethereum) {
+          await window.ethereum.request({ method: "eth_requestAccounts" });
+          const accounts = await window.ethereum.request({
+            method: "eth_accounts",
+          });
+
+          if (accounts.length > 0) {
+            setConnectedAddress(accounts[0]);
+          }
+        } else {
+          console.error("Web3 provider not found");
+        }
+      } catch (error) {
+        console.error("Error connecting wallet:", error);
+      }
+    };
+
+    const fetchData = async () => {
+      try {
+        // Connect the wallet
+        await connectWallet();
+
+        // Fetch data for each token in assetArray
+        const promises = assetArray.map(async (contractAddress) => {
+          try {
+            const tokenData = await fetchTokenData(contractAddress);
+            return tokenData;
+          } catch (error) {
+            console.error(`Error fetching data for address ${contractAddress}:`, error);
+            return null;
+          }
+        });
+
+        // Wait for all promises to resolve
+        const dataForAllAssets = await Promise.all(promises);
+        const validData = dataForAllAssets.filter((data) => data !== null);
+
+        setDataForAllAssets(validData);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    // Helper function to fetch token data using ethers.js
+    const fetchTokenData = async (contractAddress) => {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const contract = new ethers.Contract(
+        contractAddress,
+        // Add your ERC-20 ABI here
+        [
+          // ERC-20 ABI example
+          "function name() view returns (string)",
+          "function symbol() view returns (string)",
+        ],
+        provider
+      );
+
+      const [name, symbol] = await Promise.all([
+        contract.name(),
+        contract.symbol(),
+      ]);
+
+      return { address: contractAddress, name, symbol };
+    };
+
+    // Call the function to fetch data
+    fetchData();
+  }, []); // Empty dependency array ensures useEffect runs only once
+
 
   return (
     <div className="portfolio">
