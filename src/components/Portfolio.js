@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar';
+import Chart from "chart.js/auto";
 import ChartComponent from './ChartComponent';
 import TotalValue from './TotalValue'; 
 
@@ -11,32 +12,100 @@ const Portfolio = () => {
     "0x46f80018211D5cBBc988e853A8683501FCA4ee9b"
   ];
 
+  
   useEffect(() => {
-    const fetchPortfolioData = async () => {
-      const url = 'http://localhost:3001/?url=https://api.1inch.dev/portfolio/v3/portfolio/additional/erc20/details';
-      const config = {
-        headers: {
-          "Authorization": "Bearer cFc1AY00HRU0oIOcgOWlf3NUk5ZIyzC5"
-        },
-        params: {
-          "chain_id": 1,
-          "addresses": [
-            "0xF977814e90dA44bFA03b6295A0616a897441aceC"
-          ],
-          "contract_address": "0x6982508145454Ce325dDbE47a25d4ec3d2311933",
-          "timerange": "1month"
-        }
-      };
+    const fetchData = async () => {
       try {
-        const response = await axios.get(url, config);
-        setPortfolioData(response.data);
-       // console.log(response.data);
+        // Portfolio Data API
+        const portfolioUrl =
+          'http://localhost:3001/?url=https://api.1inch.dev/portfolio/v3/portfolio/additional/erc20/details';
+        const portfolioConfig = {
+          headers: {
+            Authorization: 'Bearer cFc1AY00HRU0oIOcgOWlf3NUk5ZIyzC5',
+          },
+          params: {
+            chain_id: 1,
+            addresses: [
+              '0xF977814e90dA44bFA03b6295A0616a897441aceC',
+            ],
+            contract_address: '0x6982508145454Ce325dDbE47a25d4ec3d2311933',
+            timerange: '1month',
+          },
+        };
+
+        const portfolioResponse = await axios.get(
+          portfolioUrl,
+          portfolioConfig
+        );
+        setPortfolioData(portfolioResponse.data);
+
+        // Introduce a delay using setTimeout
+        setTimeout(() => {
+          // Chart API
+          const chartUrl =
+            'http://localhost:3001/?url=https://api.1inch.dev/portfolio/v3/portfolio/additional/erc20/charts';
+          const chartConfig = {
+            headers: {
+              Authorization: 'Bearer cFc1AY00HRU0oIOcgOWlf3NUk5ZIyzC5',
+            },
+            params: {
+              contract_address: '0x6982508145454Ce325dDbE47a25d4ec3d2311933',
+              chain_id: 1,
+              addresses: [
+                '0xF977814e90dA44bFA03b6295A0616a897441aceC',
+              ],
+              timerange: '1year',
+            },
+          };
+
+          axios.get(chartUrl, chartConfig).then((chartResponse) => {
+            const chartData = chartResponse.data;
+
+            // Extract data for x-axis and y-axis
+            const xValues = chartData.map(
+              (data) =>
+                `${new Date(data.timestamp * 1000).getUTCDate()}/${
+                  new Date(data.timestamp * 1000).getUTCMonth() + 1
+                }`
+            );
+            const yValues = chartData.map((data) => data.value_usd);
+
+            // Create the chart
+            createChart(xValues, yValues);
+            console.error('chart was fetched');
+          });
+        }, 3000); // Delay of 6 seconds
       } catch (error) {
-        console.error(error);
+        console.error('Error:', error);
       }
     };
-    fetchPortfolioData();
-  }, []); 
+
+    const createChart = (xValues, yValues) => {
+      const ctx = document.getElementById('myChart').getContext('2d');
+
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: xValues,
+          datasets: [
+            {
+              label: 'Total value',
+              backgroundColor: 'rgb(57, 169, 255)',
+              borderColor: 'rgb(57, 169, 255)',
+              data: yValues,
+            },
+          ],
+        },
+        options: {
+          // Add any additional options here
+        },
+      });
+    };
+
+    // Call the function to fetch data and create the chart
+    fetchData();
+  }, []); // Empty dependency array ensures useEffect runs only once
+
 
 
   return (
@@ -45,7 +114,7 @@ const Portfolio = () => {
       <div className="headbar">
         <h2 className='dashhead'>Dashboard</h2>
         <div className="tvl">
-        <TotalValue assetArray={assetArray} />
+        {/* <TotalValue assetArray={assetArray} /> */}
         </div>
       </div>
 
@@ -54,15 +123,17 @@ const Portfolio = () => {
           <p>Amount: {portfolioData.amount}</p>
           <p>Price to USD: {portfolioData.price_to_usd}</p>
           <p>ROI: {portfolioData.roi}</p>
-          <p>Profit: {portfolioData.abs_profit_usd}</p>
         </div>
       )}
       <div className="first-section">
         daily gainers & daily loosers
       </div>
       <div className="second-section">
-        chartData
-        <ChartComponent />
+        <h2>Chart Component</h2>
+      <div className="chartmain">
+        <canvas id="myChart"></canvas>
+      </div>
+        {/* <ChartComponent /> */}
         
       </div>
       <div className="third-section">

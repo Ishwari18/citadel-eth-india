@@ -49,6 +49,7 @@ const ChartComponent = () => {
               labels: xValues,
               datasets: [
                 {
+                  label: 'Total value',
                   backgroundColor: "rgb(57, 169, 255)",
                   borderColor: "rgb(57, 169, 255)",
                   data: yValues,
