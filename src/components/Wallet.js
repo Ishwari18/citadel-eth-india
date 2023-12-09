@@ -1,9 +1,9 @@
+// Wallet.js
 import React, { useState } from 'react';
 import Web3 from 'web3';
 import "./css/Wallet.css";
 
-const Wallet = () => {
-  const [walletAddresses, setWalletAddresses] = useState([]);
+const Wallet = ({ onConnect, walletAddresses }) => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const connectToMetaMask = async () => {
@@ -14,12 +14,9 @@ const Wallet = () => {
       const accounts = await window.web3.eth.getAccounts();
       const connectedAccount = accounts[0];
 
-      // Update the array of wallet addresses
-      setWalletAddresses(prevAddresses => [...prevAddresses, connectedAccount]);
+      onConnect(connectedAccount); // Pass the connected account to the parent component
 
       // Your additional logic can go here
-      // For example, minting using a contract:
-      // contract.methods.safeMint(connectedAccount, URI).send({ from: connectedAccount, value: '100000000000000' });
 
       // Toggle the dropdown when connecting the wallet
       setShowDropdown(!showDropdown);
@@ -32,7 +29,7 @@ const Wallet = () => {
     <>
       <div className="wallet">
         <button onClick={showDropdown ? () => setShowDropdown(false) : connectToMetaMask}>
-          {walletAddresses.length > 0 ? 'Wallet Connected' : 'Connect Wallet'}
+          {walletAddresses && walletAddresses.length > 0 ? 'Wallet Connected' : 'Connect Wallet'}
         </button>
       </div>
     </>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar';
+import ChartComponent from './ChartComponent';
 
 const Portfolio = () => {
   const [portfolioData, setPortfolioData] = useState(null);
@@ -24,13 +25,14 @@ const Portfolio = () => {
       try {
         const response = await axios.get(url, config);
         setPortfolioData(response.data);
-        console.log(response.data);
+       // console.log(response.data);
       } catch (error) {
         console.error(error);
       }
     };
     fetchPortfolioData();
   }, []); 
+
 
   return (
     <div className='portfolio'>
@@ -50,7 +52,9 @@ const Portfolio = () => {
         daily gainers & daily loosers
       </div>
       <div className="second-section">
-        chart
+        chartData
+        <ChartComponent />
+        
       </div>
       <div className="third-section">
         asset list

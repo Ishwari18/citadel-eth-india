@@ -14,9 +14,7 @@ const Navbar = () => {
         <div className="walletbtn">
           <Wallet />
         </div>
-        <Link to="/profilebtn">
-          <button>Profile</button>
-        </Link>
+        
       </div>
     </>
   );
