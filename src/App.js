@@ -1,12 +1,14 @@
 
 import './App.css';
-import Wallet from './components/Wallet';
+import ChartComponent from './components/ChartComponent';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
-   
     <>
-    <Wallet/>
+    <Navbar/>
+   
+    <ChartComponent/>
     </>
   );
 }
