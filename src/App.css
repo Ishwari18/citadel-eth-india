@@ -7,6 +7,9 @@
 .App {
   text-align: center;
 }
+.headbar {
+  display: flex;
+}
 
 .App-logo {
   height: 40vmin;

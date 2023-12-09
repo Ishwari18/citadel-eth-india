@@ -2,9 +2,14 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar';
 import ChartComponent from './ChartComponent';
+import TotalValue from './TotalValue'; 
 
 const Portfolio = () => {
   const [portfolioData, setPortfolioData] = useState(null);
+  const assetArray = [
+    "0xF977814e90dA44bFA03b6295A0616a897441aceC",
+    "0x46f80018211D5cBBc988e853A8683501FCA4ee9b"
+  ];
 
   useEffect(() => {
     const fetchPortfolioData = async () => {
@@ -39,6 +44,9 @@ const Portfolio = () => {
       <Navbar/>
       <div className="headbar">
         <h2 className='dashhead'>Dashboard</h2>
+        <div className="tvl">
+        <TotalValue assetArray={assetArray} />
+        </div>
       </div>
 
       {portfolioData && (
