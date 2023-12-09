@@ -15,10 +15,6 @@ const Wallet = ({ onConnect, walletAddresses }) => {
       const accounts = await window.web3.eth.getAccounts();
       const newConnectedAccount = accounts[0];
 
-      onConnect(newConnectedAccount); // Pass the connected account to the parent component
-
-      // Your additional logic can go here
-
       setConnectedAccount(newConnectedAccount);
 
       // Toggle the dropdown when connecting the wallet
@@ -32,7 +28,7 @@ const Wallet = ({ onConnect, walletAddresses }) => {
     <>
       <div className="wallet">
         <button onClick={showDropdown ? () => setShowDropdown(false) : connectToMetaMask}>
-          {connectedAccount ? 'Wallet Connected' : 'Connect Wallet'}
+          {connectedAccount ? 'Wallet Connected' : 'Wallet'}
         </button>
       </div>
     </>

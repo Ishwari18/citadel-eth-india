@@ -140,7 +140,7 @@ const Portfolio = () => {
 
     // Call the function to fetch data and create the chart
     fetchData();
-  }, []); // Empty dependency array ensures useEffect runs only once
+  }, []); 
 
   useEffect(() => {
     const connectWallet = async () => {

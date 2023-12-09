@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 const Profile = () => {
   const [selectedWallet, setSelectedWallet] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [walletAddresses, setWalletAddresses] = useState([]); // Initialize the state
+  const [walletAddresses, setWalletAddresses] = useState([]); 
 
   const handleWalletConnect = (connectedAccount) => {
     setWalletAddresses((prevAddresses) => [...prevAddresses, connectedAccount]);
