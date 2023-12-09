@@ -18,7 +18,7 @@ const TotalValue = ({ assetArray }) => {
               "0xF977814e90dA44bFA03b6295A0616a897441aceC"
             ],
             "contract_address": "0x6982508145454Ce325dDbE47a25d4ec3d2311933",
-            "timerange": "1month"
+            "timerange": "1day"
           }
         };
         try {

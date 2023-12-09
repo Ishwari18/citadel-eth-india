@@ -54,6 +54,7 @@ const Portfolio = () => {
           <p>Amount: {portfolioData.amount}</p>
           <p>Price to USD: {portfolioData.price_to_usd}</p>
           <p>ROI: {portfolioData.roi}</p>
+          <p>Profit: {portfolioData.abs_profit_usd}</p>
         </div>
       )}
       <div className="first-section">
