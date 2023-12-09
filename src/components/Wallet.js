@@ -3,7 +3,7 @@ import Web3 from 'web3';
 import "./css/Wallet.css";
 
 const Wallet = () => {
-  const [walletAddress, setWalletAddress] = useState(null);
+  const [walletAddresses, setWalletAddresses] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
 
   const connectToMetaMask = async () => {
@@ -13,7 +13,9 @@ const Wallet = () => {
 
       const accounts = await window.web3.eth.getAccounts();
       const connectedAccount = accounts[0];
-      setWalletAddress(connectedAccount);
+
+      // Update the array of wallet addresses
+      setWalletAddresses(prevAddresses => [...prevAddresses, connectedAccount]);
 
       // Your additional logic can go here
       // For example, minting using a contract:
@@ -30,7 +32,7 @@ const Wallet = () => {
     <>
       <div className="wallet">
         <button onClick={showDropdown ? () => setShowDropdown(false) : connectToMetaMask}>
-          {walletAddress ? 'Wallet Connected' : 'Connect Wallet'}
+          {walletAddresses.length > 0 ? 'Wallet Connected' : 'Connect Wallet'}
         </button>
       </div>
     </>

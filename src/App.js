@@ -1,14 +1,20 @@
-
-import './App.css';
-import ChartComponent from './components/ChartComponent';
-import Navbar from './components/Navbar';
+import "./App.css";
+import Portfolio from "./components/Portfolio";
+import Navbar from "./components/Navbar";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./components/Home";
+import Profile from "./components/Profile";
 
 function App() {
   return (
     <>
-    <Navbar/>
-   
-    <ChartComponent/>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />{" "}
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }

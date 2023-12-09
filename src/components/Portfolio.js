@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Navbar from './Navbar';
 
-const ChartComponent = () => {
+const Portfolio = () => {
   const [portfolioData, setPortfolioData] = useState(null);
 
   useEffect(() => {
     const fetchPortfolioData = async () => {
       const url = 'http://localhost:3001/?url=https://api.1inch.dev/portfolio/v3/portfolio/additional/erc20/details';
-
       const config = {
         headers: {
           "Authorization": "Bearer cFc1AY00HRU0oIOcgOWlf3NUk5ZIyzC5"
@@ -21,28 +21,42 @@ const ChartComponent = () => {
           "timerange": "1month"
         }
       };
-
       try {
         const response = await axios.get(url, config);
-
         setPortfolioData(response.data);
         console.log(response.data);
       } catch (error) {
         console.error(error);
       }
     };
-
     fetchPortfolioData();
   }, []); 
+
   return (
-    <div className='ChartComponent'>
+    <div className='portfolio'>
+      <Navbar/>
       <div className="headbar">
-      <h2 className='dashhead'>Dashboard</h2>
-      
+        <h2 className='dashhead'>Dashboard</h2>
       </div>
-     {portfolioData}
+
+      {portfolioData && (
+        <div>
+          <p>Amount: {portfolioData.amount}</p>
+          <p>Price to USD: {portfolioData.price_to_usd}</p>
+          <p>ROI: {portfolioData.roi}</p>
+        </div>
+      )}
+      <div className="first-section">
+        daily gainers & daily loosers
+      </div>
+      <div className="second-section">
+        chart
+      </div>
+      <div className="third-section">
+        asset list
+      </div>
     </div>
   );
 };
 
-export default ChartComponent;
+export default Portfolio;
