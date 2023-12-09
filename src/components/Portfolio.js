@@ -6,6 +6,7 @@ import Chart from "chart.js/auto";
 const Portfolio = () => {
   const [portfolioData, setPortfolioData] = useState(null);
   const [totalValue, setTotalValue] = useState(0);
+  const [dataForAllAssets, setDataForAllAssets] = useState([]);
   const assetArray = [
     "0xF977814e90dA44bFA03b6295A0616a897441aceC",
     "0x46f80018211D5cBBc988e853A8683501FCA4ee9b",
@@ -132,6 +133,7 @@ const Portfolio = () => {
       }, 0);
 
       setTotalValue(total);
+      setDataForAllAssets(validData);
     };
 
     // Call the function to fetch data and create the chart
@@ -149,21 +151,22 @@ const Portfolio = () => {
         </div>
       </div>
 
-      {portfolioData && (
-        <div>
-          <p>Amount: {portfolioData.amount}</p>
-          <p>Price to USD: {portfolioData.price_to_usd}</p>
-          <p>ROI: {portfolioData.roi}</p>
-        </div>
-      )}
-      <div className="first-section">daily gainers & daily loosers</div>
+     
       <div className="second-section">
         <h2>Chart Component</h2>
         <div className="chartmain">
           <canvas id="myChart"></canvas>
         </div>
       </div>
-      <div className="third-section">asset list</div>
+      <div className="third-section">asset list
+      <ul>
+        {dataForAllAssets.map((asset, index) => (
+          <li key={index}>
+            <p>Balance (USD): {asset?.amount * asset?.price_to_usd}</p>
+            <p>ROI: {asset?.roi}</p>
+          </li>
+        ))}
+      </ul></div>
     </div>
   );
 };
