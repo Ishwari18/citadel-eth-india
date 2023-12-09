@@ -27,6 +27,12 @@ body{
   text-align: center;
   margin-top: 30vh;
 }
+.chartmain {
+  background-color: rgb(235, 243, 255);
+   /* background-color: rgb(202, 57, 255);  */
+  width: 70vw;
+  margin: auto;
+}
 .main p {
   font-size: 2em;
   font-family: "Roboto Mono", monospace;
@@ -113,7 +119,7 @@ color: white;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: rgba(0,0,255,1);
+  color: white;
 }
 
 .App-link {

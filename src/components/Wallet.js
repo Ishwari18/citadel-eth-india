@@ -5,6 +5,7 @@ import "./css/Wallet.css";
 
 const Wallet = ({ onConnect, walletAddresses }) => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [connectedAccount, setConnectedAccount] = useState(null);
 
   const connectToMetaMask = async () => {
     try {
@@ -12,11 +13,13 @@ const Wallet = ({ onConnect, walletAddresses }) => {
       window.web3 = new Web3(window.ethereum);
 
       const accounts = await window.web3.eth.getAccounts();
-      const connectedAccount = accounts[0];
+      const newConnectedAccount = accounts[0];
 
-      onConnect(connectedAccount); // Pass the connected account to the parent component
+      onConnect(newConnectedAccount); // Pass the connected account to the parent component
 
       // Your additional logic can go here
+
+      setConnectedAccount(newConnectedAccount);
 
       // Toggle the dropdown when connecting the wallet
       setShowDropdown(!showDropdown);
@@ -29,7 +32,7 @@ const Wallet = ({ onConnect, walletAddresses }) => {
     <>
       <div className="wallet">
         <button onClick={showDropdown ? () => setShowDropdown(false) : connectToMetaMask}>
-          {walletAddresses && walletAddresses.length > 0 ? 'Wallet Connected' : 'Connect Wallet'}
+          {connectedAccount ? 'Wallet Connected' : 'Connect Wallet'}
         </button>
       </div>
     </>
