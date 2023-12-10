@@ -10,7 +10,7 @@ const Portfolio = () => {
   const [totalValue, setTotalValue] = useState(0);
   const [dataForAllAssets, setDataForAllAssets] = useState([]);
   const assetArray = [
-    "0xF977814e90dA44bFA03b6295A0616a897441aceC",
+    "0x6982508145454Ce325dDbE47a25d4ec3d2311933",
     "0x46f80018211D5cBBc988e853A8683501FCA4ee9b",
   ];
 
@@ -122,7 +122,7 @@ const Portfolio = () => {
           params: {
             chain_id: 1,
             addresses: ["0xF977814e90dA44bFA03b6295A0616a897441aceC"],
-            contract_address: "0x6982508145454Ce325dDbE47a25d4ec3d2311933",
+            contract_address: address,
             timerange: "1day",
           },
         };
