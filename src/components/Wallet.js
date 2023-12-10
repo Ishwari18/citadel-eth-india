@@ -53,7 +53,7 @@ const Wallet = ({ onConnect, walletAddresses }) => {
         )}
 
         {showDropdown && (
-          <div className="dropdown-content" style={{backgroundColor: "#ffffffeb", color: "black", padding: "1em", margin: "1em", width: "26em", position: "relative", borderRadius: "2em"}}>
+          <div className="dropdown-content" style={{backgroundColor: "#ffffffeb", color: "black", padding: "1em", margin: "1em", width: "26em", position: "relative", borderRadius: "2em", right: "15em"}}>
             {connectedAccounts.map((account, index) => (
              <div key={index} style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
             <div style={{ fontSize: "0.8em",fontWeight: "500" }}>{account}</div>

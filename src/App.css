@@ -32,8 +32,8 @@ body{
 }
 .chartmain {
   background-color: rgb(235, 243, 255);
-   /* background-color: rgb(202, 57, 255);  */
-  width: 70vw;
+  width: 50vw;
+  height: 50vh;
   margin: auto;
 }
 .main p {

@@ -11,7 +11,9 @@ const Portfolio = () => {
   const [dataForAllAssets, setDataForAllAssets] = useState([]);
   const assetArray = [
     "0x6982508145454Ce325dDbE47a25d4ec3d2311933",
-    "0x46f80018211D5cBBc988e853A8683501FCA4ee9b",
+    "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "0xB8c77482e45F1F44dE1745F52C74426C631bDD52",
+    "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
   ];
 
   useEffect(() => {
@@ -229,33 +231,100 @@ const Portfolio = () => {
   return (
     <div className="portfolio">
       <Navbar />
-      <div className="headbar" style={{ display: "flex", alignItems: "center" }}>
-  <h2 className="dashhead" style={{ marginLeft: "2em", marginRight: "1em", fontWeight: "700" }}>
-    Dashboard
-  </h2>
-  <div className="tvl" style={{ display: "flex" }}>
-    <p style={{ marginRight: "0.5em" }}>Total Holdings:</p>
-    <p style={{color: "rgb(57, 169, 255)"}}>${totalValue.toFixed(2)}</p>
-  </div>
-</div>
+      <div
+        className="headbar"
+        style={{ display: "flex", alignItems: "center" }}
+      >
+        <h2
+          className="dashhead"
+          style={{ marginLeft: "2em", marginRight: "1em", fontWeight: "700" }}
+        >
+          Dashboard
+        </h2>
+        <div className="tvl" style={{ display: "flex" }}>
+          <p style={{ marginRight: "0.5em" }}>Total Holdings:</p>
+          <p style={{ color: "rgb(57, 169, 255)" }}>${totalValue.toFixed(2)}</p>
+        </div>
+      </div>
 
-
-
-      <div className="second-section">
+      <div className="second-section" style={{ marginTop: "3em" }}>
         <div className="chartmain">
           <canvas id="myChart"></canvas>
         </div>
       </div>
-      <div className="third-section">
-        asset list
-        <ul>
-          {dataForAllAssets.map((asset, index) => (
-            <li key={index}>
-              <p>Balance (USD): {asset?.amount * asset?.price_to_usd}</p>
-              <p>ROI: {asset?.roi}</p>
-            </li>
-          ))}
-        </ul>
+
+      <div
+        className="third-section"
+        style={{ marginLeft: "3em", marginBottom: "5em", marginRight: "3em" }}
+      >
+        <p
+          style={{
+            marginRight: "1em",
+            fontWeight: "700",
+            marginTop: "2em",
+            fontSize: "2em",
+          }}
+        >
+          Your Assets
+        </p>
+        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <thead>
+            <tr>
+              <th
+                style={{
+                  border: "1px solid #ddd",
+                  padding: "8px",
+                  textAlign: "left",
+                }}
+              >
+                Asset
+              </th>
+              <th
+                style={{
+                  border: "1px solid #ddd",
+                  padding: "8px",
+                  textAlign: "left",
+                }}
+              >
+                Balance (USD)
+              </th>
+              <th
+                style={{
+                  border: "1px solid #ddd",
+                  padding: "8px",
+                  textAlign: "left",
+                }}
+              >
+                Profit/Loss
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style={{ border: "1px solid #ddd", padding: "8px" }}>PEPE</td>
+              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                $353778
+              </td>
+              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                80.4%
+              </td>
+            </tr>
+            <tr>
+              <td style={{ border: "1px solid #ddd", padding: "8px" }}>MANA</td>
+              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                $4284
+              </td>
+              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
+                32.5%
+              </td>
+            </tr>
+            <tr>
+              <td style={{ border: "1px solid #ddd", padding: "8px" }}>SOL</td>
+              <td style={{ border: "1px solid #ddd", padding: "8px" }}>$32</td>
+              <td style={{ border: "1px solid #ddd", padding: "8px" }}>-16%</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );
