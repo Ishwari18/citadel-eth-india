@@ -85,6 +85,14 @@ const Portfolio = () => {
     const createChart = (xValues, yValues) => {
       const ctx = document.getElementById("myChart").getContext("2d");
 
+      // Check if a chart instance already exists
+      const existingChart = Chart.getChart("myChart");
+
+      // If a chart exists, destroy it
+      if (existingChart) {
+        existingChart.destroy();
+      }
+
       new Chart(ctx, {
         type: "line",
         data: {
@@ -140,7 +148,7 @@ const Portfolio = () => {
 
     // Call the function to fetch data and create the chart
     fetchData();
-  }, []); 
+  }, []);
 
   useEffect(() => {
     const connectWallet = async () => {
@@ -174,7 +182,10 @@ const Portfolio = () => {
             const tokenData = await fetchTokenData(contractAddress);
             return tokenData;
           } catch (error) {
-            console.error(`Error fetching data for address ${contractAddress}:`, error);
+            console.error(
+              `Error fetching data for address ${contractAddress}:`,
+              error
+            );
             return null;
           }
         });
@@ -215,34 +226,37 @@ const Portfolio = () => {
     fetchData();
   }, []); // Empty dependency array ensures useEffect runs only once
 
-
   return (
     <div className="portfolio">
       <Navbar />
-      <div className="headbar">
-        <h2 className="dashhead">Dashboard</h2>
-        <div className="tvl">
-          <h3>Total Value</h3>
-          <p>USD: ${totalValue.toFixed(2)}</p>
-        </div>
-      </div>
+      <div className="headbar" style={{ display: "flex", alignItems: "center" }}>
+  <h2 className="dashhead" style={{ marginLeft: "2em", marginRight: "1em", fontWeight: "700" }}>
+    Dashboard
+  </h2>
+  <div className="tvl" style={{ display: "flex" }}>
+    <p style={{ marginRight: "0.5em" }}>Total Holdings:</p>
+    <p style={{color: "rgb(57, 169, 255)"}}>${totalValue.toFixed(2)}</p>
+  </div>
+</div>
 
-     
+
+
       <div className="second-section">
-        <h2>Chart Component</h2>
         <div className="chartmain">
           <canvas id="myChart"></canvas>
         </div>
       </div>
-      <div className="third-section">asset list
-      <ul>
-        {dataForAllAssets.map((asset, index) => (
-          <li key={index}>
-            <p>Balance (USD): {asset?.amount * asset?.price_to_usd}</p>
-            <p>ROI: {asset?.roi}</p>
-          </li>
-        ))}
-      </ul></div>
+      <div className="third-section">
+        asset list
+        <ul>
+          {dataForAllAssets.map((asset, index) => (
+            <li key={index}>
+              <p>Balance (USD): {asset?.amount * asset?.price_to_usd}</p>
+              <p>ROI: {asset?.roi}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

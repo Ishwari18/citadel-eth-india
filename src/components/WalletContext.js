@@ -23,9 +23,19 @@ export const WalletProvider = ({ children }) => {
       prevAccounts.filter((connectedAccount) => connectedAccount !== account)
     );
   };
+  const addWallet = (newAccount) => {
+    // Check if the new account is not already in the connected accounts
+    if (!connectedAccounts.includes(newAccount)) {
+      // Add the new account to the connected accounts
+      setConnectedAccounts((prevAccounts) => [...prevAccounts, newAccount]);
+    } else {
+      // Handle the case where the account is already connected
+      console.error("Wallet already connected:", newAccount);
+    }
+  };
 
   return (
-    <WalletContext.Provider value={{ connectedAccounts, connectWallet, disconnectWallet }}>
+    <WalletContext.Provider value={{ connectedAccounts, connectWallet, disconnectWallet  , addWallet}}>
       {children}
     </WalletContext.Provider>
   );
